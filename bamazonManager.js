@@ -1,8 +1,8 @@
 // Initializes the npm packages used
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-// require("c:/users/bobobunny/Desktop/bamazon/Bamazon-Manager/node_modules/console.table");
 require("console.table");
+var pluralizeUtility = require("./pluralizeUtility.js");
 
 // Initializes the connection variable to sync with a MySQL database
 var connection = mysql.createConnection({
@@ -100,7 +100,6 @@ function addToInventory(inventory) {
       if (product) {
         // Pass the chosen product to promptCustomerForQuantity
         promptManagerForQuantity(product);
-        console.log(product);
       }
       else {
         // Otherwise let the user know and re-load the manager menu
@@ -135,7 +134,7 @@ function addQuantity(product, quantity) {
     [product.stock_quantity + quantity, product.item_id],
     function(err, res) {
       // Let the user know the purchase was successful, re-run loadProducts
-      console.log("\nSuccessfully added " + quantity + " " + product.product_name + "'s!\n");
+      console.log(pluralizeUtility("Successfully added",quantity,product));
       loadManagerMenu();
     }
   );

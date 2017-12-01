@@ -3,6 +3,8 @@ var mysql = require("mysql");
 var inquirer = require("inquirer");
 // require("c:/users/bobobunny/Desktop/bamazon/Bamazon-Customer/node_modules/console.table");
 require("console.table");
+// relative vs absolute paths: / looks at the root of C:, and ./ looks in local directoryfile is in.
+var pluralizeUtility = require("./pluralizeUtility.js");
 
 // Initializes the connection variable to sync with a MySQL database
 var connection = mysql.createConnection({
@@ -18,6 +20,7 @@ var connection = mysql.createConnection({
 });
 
 // Creates the connection with the server and loads the product data upon a successful connection
+
 connection.connect(function(err) {
   if (err) {
     console.error("error connecting: " + err.stack);
@@ -109,7 +112,7 @@ function makePurchase(product, quantity) {
     [quantity, product.item_id],
     function(err, res) {
       // Let the user know the purchase was successful, re-run loadProducts
-      console.log("\nSuccessfully purchased " + quantity + " " + product.product_name + "'s!");
+      console.log(pluralizeUtility("Successfully purchased",quantity,product));
       loadProducts();
     }
   );
